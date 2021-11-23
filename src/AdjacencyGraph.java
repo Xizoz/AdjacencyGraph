@@ -31,7 +31,7 @@ public class AdjacencyGraph {
 public void MSTPrims(){
 
       MinHeap<Vertex> Q = new MinHeap<>();
-      ArrayList<Vertex> inMST = new ArrayList<>();
+
 
     for (int i = 0; i < vertices.size(); i++) {
         Q.Insert(vertices.get(i));
@@ -43,11 +43,11 @@ public void MSTPrims(){
     }
     while (!Q.isEmpty()){
         Vertex u = Q.extractMin();
-        inMST.add(u);
+        u.visited = true;
 
         for (int i = 0; i < u.OutEdges.size(); i++) {
             Edge e = u.OutEdges.get(i);
-            if (e.weight < e.to.dist && !inMST.contains(e.to)){
+            if (e.weight < e.to.dist && !e.to.visited){
                 e.to.dist = e.weight;
                 e.to.prev = Integer.parseInt(u.name);
                 int pos2 = Q.getPosition(e.to);
@@ -71,6 +71,7 @@ class Vertex implements Comparable<Vertex>{
     ArrayList<Edge> OutEdges;
     Integer dist= Integer.MAX_VALUE;
     Integer prev = null;
+    boolean visited = false;
     public Vertex(String id){
         name=id;
         OutEdges=new ArrayList<Edge>();
